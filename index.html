@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gowda Poker Room</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="header">
+    <nav class="nav">
+      <div class="brand">
+        <span class="logo">♠</span>
+        <span class="wordmark">Gowda Poker Room</span>
+      </div>
+      <div class="nav-right">
+        <button id="nav-home" class="nav-btn active">Home</button>
+        <button id="nav-leaderboard" class="nav-btn">Leaderboard</button>
+        <button id="nav-tournaments" class="nav-btn">Tournaments</button>
+        <button id="nav-admin" class="nav-btn">Admin</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="backbar" class="backbar hidden"><button id="back-btn" class="btn back">← Back</button></div>
+
+    <!-- Home page -->
+    <section id="home" class="page page-active">
+      <div class="hero card elevate">
+        <div class="hero-text">
+          <h1>Welcome to the <span>Gowda Poker Room</span></h1>
+          <p>Track winnings, schedule tournaments, and crown your home‑game champions — all in one sleek dashboard.</p>
+          <div class="cta-row">
+            <button class="btn primary" data-nav="leaderboard">View Leaderboard</button>
+            <button class="btn ghost" data-nav="tournaments">Upcoming Tournaments</button>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num" id="stat-players">0</div>
+            <div class="stat-label">Players</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="stat-sessions">0</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="stat-profit">$0</div>
+            <div class="stat-label">Total Cash‑out</div>
+          </div>
+        </div>
+      </div>
+      <div class="card elevate highlights">
+        <h2 class="section-title">Highlights</h2>
+        <ul id="highlights-list" class="highlights-list"></ul>
+      </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section id="leaderboard" class="page">
+      <div class="page-head">
+        <h2 class="section-title">Leaderboard</h2>
+        <button class="btn back sm" data-back>← Back</button>
+      </div>
+      <div class="card elevate">
+        <p class="muted">Totals across all sessions.</p>
+        <div class="table-wrap">
+          <table id="leaderboard-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th>Sessions</th>
+                <th>Total Buy‑ins</th>
+                <th>Total Cash‑outs</th>
+                <th>Profit</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tournaments -->
+    <section id="tournaments" class="page">
+      <div class="page-head">
+        <h2 class="section-title">Tournaments</h2>
+        <button class="btn back sm" data-back>← Back</button>
+      </div>
+      <div class="card elevate">
+        <div id="tournament-list" class="list"></div>
+      </div>
+      <div id="tournament-detail" class="card elevate hidden"></div>
+    </section>
+
+    <!-- Admin -->
+    <section id="admin" class="page">
+      <div class="page-head">
+        <h2 class="section-title">Admin</h2>
+        <button class="btn back sm" data-back>← Back</button>
+      </div>
+      <div id="admin-panel">
+        <div class="grid two">
+          <div class="pane card elevate">
+            <h3>Players</h3>
+            <div class="row">
+              <input id="player-first" class="input" placeholder="First name">
+              <input id="player-last" class="input" placeholder="Last name">
+              <button id="add-player" class="btn">Add</button>
+            </div>
+            <ul id="players-ul" class="list compact"></ul>
+          </div>
+          <div class="pane card elevate">
+            <h3>Sessions</h3>
+            <div class="row">
+              <input id="session-notes" class="input" placeholder="Notes (optional)">
+              <button id="create-session" class="btn">Create Session</button>
+            </div>
+            <div class="row"><select id="session-select" class="input"></select></div>
+            <div class="row">
+              <select id="entry-player" class="input"></select>
+              <input id="entry-buyin" class="input" type="number" min="0" step="0.01" placeholder="Buy‑in">
+              <input id="entry-cashout" class="input" type="number" min="0" step="0.01" placeholder="Cash‑out">
+              <button id="add-entry" class="btn">Add Entry</button>
+            </div>
+            <div class="table-wrap">
+              <table id="entries-table">
+                <thead>
+                  <tr>
+                    <th>Player</th>
+                    <th>Buy‑in</th>
+                    <th>Cash‑out</th>
+                    <th>Profit</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="pane card elevate">
+            <h3>Create Tournament</h3>
+            <div class="row">
+              <input id="t-title" class="input" placeholder="Title">
+              <input id="t-when" class="input" type="datetime-local">
+            </div>
+            <div class="row">
+              <input id="t-buyin" class="input" type="number" min="0" step="0.01" placeholder="Buy‑in">
+              <input id="t-description" class="input" placeholder="Description (optional)">
+            </div>
+            <textarea id="t-prizes" class="input" rows="4" placeholder="Prizes (one per line)
+1st: $300
+2nd: $150
+3rd: $50"></textarea>
+            <div class="row">
+              <button id="t-create" class="btn">Create</button>
+            </div>
+          </div>
+          <div class="pane card elevate">
+            <h3>Manage Tournament</h3>
+            <div class="row">
+              <select id="t-manage-select" class="input"></select>
+            </div>
+            <div class="row">
+              <input id="p-rank" class="input" type="number" min="1" placeholder="Rank">
+              <input id="p-name" class="input" placeholder="Name">
+              <input id="p-prize" class="input" placeholder="Prize (optional)">
+              <button id="p-add" class="btn">Add Placement</button>
+            </div>
+            <div class="row">
+              <button id="t-mark-complete" class="btn ghost">Mark Completed</button>
+            </div>
+            <div class="table-wrap">
+              <table id="placements-table">
+                <thead><tr><th>Rank</th><th>Name</th><th>Prize</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Gowda Poker Room</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
