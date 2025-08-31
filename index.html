@@ -1,194 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gowda Poker Room</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gowda Poker Room</title>
+<style>
+:root{--bg:#0b0f14;--bg-2:#0d1219;--panel:#111827;--panel-2:#0f1723;--text:#e6edf3;--muted:#93a1b3;--brand:#6ee7f9;--brand-2:#a78bfa;--accent:#22d3ee;--success:#34d399;--danger:#fb7185;--shadow:0 10px 30px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:
+radial-gradient(1200px 800px at 10% -20%, rgba(102,69,255,.15), transparent),
+radial-gradient(1000px 600px at 110% 10%, rgba(34,211,238,.12), transparent),
+linear-gradient(180deg,#0b0f14 0%,#0a0d12 100%); color:var(--text)}
+.bg-grid{position:fixed;inset:0;pointer-events:none;opacity:.15;background-image:linear-gradient(transparent 95%, rgba(255,255,255,.05) 96%),linear-gradient(90deg, transparent 95%, rgba(255,255,255,.05) 96%);background-size:24px 24px}
+.header{position:sticky;top:0;z-index:20;background:rgba(10,13,18,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav{max-width:1100px;margin:0 auto;display:flex;gap:16px;align-items:center;padding:12px 16px}
+.brand{display:flex;align-items:center;gap:10px}.logo{font-size:20px;color:var(--brand)}.wordmark{font-weight:700;letter-spacing:.2px}
+.nav-right{margin-left:auto;display:flex;gap:8px}
+.nav-btn{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.1);padding:8px 12px;border-radius:10px;cursor:pointer}
+.nav-btn.active,.nav-btn:hover{border-color:var(--accent);box-shadow:0 0 0 2px rgba(34,211,238,.15) inset}
+.container{max-width:1100px;margin:28px auto;padding:0 16px}
+.page{display:none}.page-active{display:block}
+.card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:20px}
+.elevate{box-shadow:var(--shadow)}.section-title{margin:0 0 8px 0}.muted{color:var(--muted)}
+.table-wrap{overflow:auto;border-radius:12px;border:1px solid rgba(255,255,255,.06);margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+thead th{background:#0e1420;color:#cbd5e1;text-align:left}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+.btn{background:#171f2c;color:var(--text);border:1px solid rgba(255,255,255,.1);padding:10px 14px;border-radius:10px;cursor:pointer}
+.btn:hover{border-color:var(--brand-2)}.btn.primary{background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%);color:#08111a;font-weight:700}
+.btn.ghost{background:transparent}.btn.back{background:transparent;border-color:rgba(255,255,255,.2)}.btn.back.sm{padding:6px 10px;font-size:13px}
+.input{background:#0f1520;color:var(--text);border:1px solid rgba(255,255,255,.12);padding:10px 12px;border-radius:10px;width:100%}
+.input::placeholder{color:#7f8b9a}
+.row{display:flex;gap:8px;margin:10px 0}
+.grid.two{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:900px){.grid.two{grid-template-columns:1fr 1fr}}
+.list{display:flex;flex-direction:column;gap:8px}
+.list .item{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:#0d1220}
+.list.compact .item{padding:8px}
+.footer{color:#9fb0c0;text-align:center;padding:30px 16px}
+.hidden{display:none}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+.hero-text h1{margin:0 0 8px 0;font-size:34px;line-height:1.1}
+.hero-text h1 span{background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta-row{display:flex;gap:10px;margin-top:12px}
+.hero-stats{display:flex;gap:16px;justify-content:flex-end;flex-wrap:wrap}
+.stat{background:#0c1220;border:1px solid rgba(255,255,255,.08);padding:14px;border-radius:14px;text-align:center;min-width:120px}
+.stat-num{font-weight:800;font-size:22px}.stat-label{color:#9fb0c0;font-size:12px}
+.highlights-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:700px){.highlights-list{grid-template-columns:1fr}}
+.highlights-list li{padding:10px 12px;border-radius:10px;background:#0d1422;border:1px solid rgba(255,255,255,.06)}
+.page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.backbar{display:flex;justify-content:flex-start;margin-bottom:10px}
+</style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <header class="header">
-    <nav class="nav">
-      <div class="brand">
-        <span class="logo">♠</span>
-        <span class="wordmark">Gowda Poker Room</span>
-      </div>
-      <div class="nav-right">
-        <button id="nav-home" class="nav-btn active">Home</button>
-        <button id="nav-leaderboard" class="nav-btn">Leaderboard</button>
-        <button id="nav-tournaments" class="nav-btn">Tournaments</button>
-        <button id="nav-admin" class="nav-btn">Admin</button>
-      </div>
-    </nav>
-  </header>
+<div class="bg-grid"></div>
+<header class="header">
+  <nav class="nav">
+    <div class="brand"><span class="logo">♠</span><span class="wordmark">Gowda Poker Room</span></div>
+    <div class="nav-right">
+      <button id="nav-home" class="nav-btn active">Home</button>
+      <button id="nav-leaderboard" class="nav-btn">Leaderboard</button>
+      <button id="nav-tournaments" class="nav-btn">Tournaments</button>
+      <button id="nav-admin" class="nav-btn">Admin</button>
+    </div>
+  </nav>
+</header>
 
-  <main class="container">
-    <div id="backbar" class="backbar hidden"><button id="back-btn" class="btn back">← Back</button></div>
+<main class="container">
+  <div id="backbar" class="backbar hidden"><button id="back-btn" class="btn back">← Back</button></div>
 
-    <!-- Home page -->
-    <section id="home" class="page page-active">
-      <div class="hero card elevate">
-        <div class="hero-text">
-          <h1>Welcome to the <span>Gowda Poker Room</span></h1>
-          <p>Track winnings, schedule tournaments, and crown your home‑game champions — all in one sleek dashboard.</p>
-          <div class="cta-row">
-            <button class="btn primary" data-nav="leaderboard">View Leaderboard</button>
-            <button class="btn ghost" data-nav="tournaments">Upcoming Tournaments</button>
-          </div>
-        </div>
-        <div class="hero-stats">
-          <div class="stat">
-            <div class="stat-num" id="stat-players">0</div>
-            <div class="stat-label">Players</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num" id="stat-sessions">0</div>
-            <div class="stat-label">Sessions</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num" id="stat-profit">$0</div>
-            <div class="stat-label">Total Cash‑out</div>
-          </div>
+  <section id="home" class="page page-active">
+    <div class="hero card elevate">
+      <div class="hero-text">
+        <h1>Welcome to the <span>Gowda Poker Room</span></h1>
+        <p>Track winnings, schedule tournaments, and crown your home-game champions — all in one sleek dashboard.</p>
+        <div class="cta-row">
+          <button class="btn primary" data-nav="leaderboard">View Leaderboard</button>
+          <button class="btn ghost" data-nav="tournaments">Upcoming Tournaments</button>
         </div>
       </div>
-      <div class="card elevate highlights">
-        <h2 class="section-title">Highlights</h2>
-        <ul id="highlights-list" class="highlights-list"></ul>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num" id="stat-players">0</div><div class="stat-label">Players</div></div>
+        <div class="stat"><div class="stat-num" id="stat-sessions">0</div><div class="stat-label">Sessions</div></div>
+        <div class="stat"><div class="stat-num" id="stat-profit">$0</div><div class="stat-label">Total Cash-out</div></div>
       </div>
-    </section>
+    </div>
+    <div class="card elevate highlights">
+      <h2 class="section-title">Highlights</h2>
+      <ul id="highlights-list" class="highlights-list"></ul>
+    </div>
+  </section>
 
-    <!-- Leaderboard -->
-    <section id="leaderboard" class="page">
+  <section id="leaderboard" class="page">
+    <div class="page-head"><h2 class="section-title">Leaderboard</h2><button class="btn back sm" data-back>← Back</button></div>
+    <div class="card elevate">
+      <p class="muted">Totals across all sessions.</p>
+      <div class="table-wrap">
+        <table id="leaderboard-table">
+          <thead><tr><th>#</th><th>Player</th><th>Sessions</th><th>Total Buy-ins</th><th>Total Cash-outs</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="tournaments" class="page">
+    <div class="page-head"><h2 class="section-title">Tournaments</h2><button class="btn back sm" data-back>← Back</button></div>
+    <div class="card elevate"><div id="tournament-list" class="list"></div></div>
+    <div id="tournament-detail" class="card elevate hidden"></div>
+  </section>
+
+  <section id="admin" class="page">
+    <div class="page-head"><h2 class="section-title">Admin</h2><button class="btn back sm" data-back>← Back</button></div>
+    <div id="admin-panel">
+      <div class="grid two">
+        <div class="pane card elevate">
+          <h3>Players</h3>
+          <div class="row"><input id="player-first" class="input" placeholder="First name"><input id="player-last" class="input" placeholder="Last name"><button id="add-player" class="btn">Add</button></div>
+          <ul id="players-ul" class="list compact"></ul>
+        </div>
+        <div class="pane card elevate">
+          <h3>Sessions</h3>
+          <div class="row"><input id="session-notes" class="input" placeholder="Notes (optional)"><button id="create-session" class="btn">Create Session</button></div>
+          <div class="row"><select id="session-select" class="input"></select></div>
+          <div class="row"><select id="entry-player" class="input"></select><input id="entry-buyin" class="input" type="number" min="0" step="0.01" placeholder="Buy-in"><input id="entry-cashout" class="input" type="number" min="0" step="0.01" placeholder="Cash-out"><button id="add-entry" class="btn">Add Entry</button></div>
+          <div class="table-wrap"><table id="entries-table"><thead><tr><th>Player</th><th>Buy-in</th><th>Cash-out</th><th>Profit</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+
+      <div class="grid two">
+        <div class="pane card elevate">
+          <h3>Create Tournament</h3>
+          <div class="row"><input id="t-title" class="input" placeholder="Title"><input id="t-when" class="input" type="datetime-local"></div>
+          <div class="row"><input id="t-buyin" class="input" type="number" min="0" step="0.01" placeholder="Buy-in"><input id="t-description" class="input" placeholder="Description (optional)"></div>
+          <textarea id="t-prizes" class="input" rows="4" placeholder="Prizes (one per line)&#10;1st: $300&#10;2nd: $150&#10;3rd: $50"></textarea>
+          <div class="row"><button id="t-create" class="btn">Create</button></div>
+        </div>
+        <div class="pane card elevate">
+          <h3>Manage Tournament</h3>
+          <div class="row"><select id="t-manage-select" class="input"></select></div>
+          <div class="row"><input id="p-rank" class="input" type="number" min="1" placeholder="Rank"><input id="p-name" class="input" placeholder="Name"><input id="p-prize" class="input" placeholder="Prize (optional)"><button id="p-add" class="btn">Add Placement</button></div>
+          <div class="row"><button id="t-mark-complete" class="btn ghost">Mark Completed</button></div>
+          <div class="table-wrap"><table id="placements-table"><thead><tr><th>Rank</th><th>Name</th><th>Prize</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer"><p>© <span id="year"></span> Gowda Poker Room</p></footer>
+
+<script>
+(function(){
+  function load(){ try{return JSON.parse(localStorage.getItem('gpr-data')||'{}')}catch(e){return{}} }
+  function save(d){ localStorage.setItem('gpr-data', JSON.stringify(d)) }
+  const data = load(); if(!data.players) data.players=[]; if(!data.sessions) data.sessions=[]; if(!data.tournaments) data.tournaments=[]; save(data);
+
+  const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+  const fmt=n=>(Number(n)||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const uid=()=>Math.random().toString(36).slice(2,10); const now=()=>new Date().toISOString();
+
+  const pageStack=['home'];
+  function updateBackUI(){ const show=pageStack.length>1; const b=$('#backbar'); if(b) (show?b.classList.remove('hidden'):b.classList.add('hidden')); }
+  function showPage(id){
+    $$('.nav-btn').forEach(b=>b.classList.remove('active')); $$('.page').forEach(p=>p.classList.remove('page-active'));
+    const page = $('#'+id); if(!page) return;
+    page.classList.add('page-active'); $(`#nav-${id}`)?.classList.add('active');
+    if(pageStack[pageStack.length-1]!==id) pageStack.push(id); updateBackUI();
+    if(id==='leaderboard') renderLeaderboard();
+    if(id==='tournaments'){ renderTournaments(); $('#tournament-detail')?.classList.add('hidden'); }
+    if(id==='home'){ refreshHomeStats(); renderHighlights(); }
+  }
+  function goBack(){ if(pageStack.length>1){ pageStack.pop(); const prev=pageStack[pageStack.length-1]; $$('.page').forEach(p=>p.classList.remove('page-active')); $('#'+prev)?.classList.add('page-active'); $$('.nav-btn').forEach(b=>b.classList.remove('active')); $(`#nav-${prev}`)?.classList.add('active'); updateBackUI(); } }
+
+  $('#back-btn')?.addEventListener('click', goBack);
+  $$('.nav-btn').forEach(btn=> btn.addEventListener('click', ()=> showPage(btn.id.replace('nav-','')) ));
+  $$('.cta-row .btn')?.forEach(btn=> btn.addEventListener('click', ()=> showPage(btn.dataset.nav)));
+
+  $('#year').textContent = new Date().getFullYear();
+
+  function refreshHomeStats(){
+    $('#stat-players').textContent = data.players.length;
+    $('#stat-sessions').textContent = data.sessions.length;
+    const totalCash = data.sessions.flatMap(s=>s.entries||[]).reduce((a,e)=>a+Number(e.cashOut||0),0);
+    $('#stat-profit').textContent = '$'+fmt(totalCash);
+  }
+  function renderHighlights(){
+    const ul = $('#highlights-list'); if(!ul) return; ul.innerHTML='';
+    const map = new Map();
+    for(const s of data.sessions){
+      for(const e of (s.entries||[])){
+        const p = map.get(e.playerId)||{buy:0,cash:0,profit:0};
+        p.buy += Number(e.buyIn||0);
+        p.cash += Number(e.cashOut||0);
+        p.profit += Number(e.cashOut||0)-Number(e.buyIn||0);
+        map.set(e.playerId,p);
+      }
+    }
+    const rows = [...map.entries()].map(([pid,v])=>({pid,...v})).sort((a,b)=>b.profit-a.profit).slice(0,3);
+    for(const r of rows){
+      const player = data.players.find(p=>p.id===r.pid);
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${player?player.first+' '+player.last:r.pid}</strong> — Sessions: ${(data.sessions.flatMap(s=>s.entries||[]).filter(e=>e.playerId===r.pid).length)} · Profit: <span style="color:${r.profit>=0?'#34d399':'#fb7185'}">$${fmt(r.profit)}</span>`;
+      ul.appendChild(li);
+    }
+  }
+
+  function addPlayer(first,last){ if(!first||!last) return; data.players.push({id:uid(),first,last,active:true}); save(data); renderPlayers(); refreshHomeStats(); renderLeaderboard(); }
+  function renderPlayers(){
+    const ul = $('#players-ul'); if(!ul) return; ul.innerHTML='';
+    for(const p of data.players){
+      const li = document.createElement('li');
+      li.className='item';
+      li.innerHTML = `<span>${p.first} ${p.last} ${p.active?'':'<em style="color:#93a1b3;font-size:12px">(inactive)</em>'}</span>
+        <button class="btn" data-id="${p.id}">${p.active?'Set inactive':'Set active'}</button>`;
+      ul.appendChild(li);
+    }
+    ul.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const p = data.players.find(x=>x.id===btn.dataset.id); if(!p) return;
+        p.active = !p.active; save(data); renderPlayers();
+      });
+    });
+    const sel = $('#entry-player'); if(sel){ sel.innerHTML = '<option value="">'+'Select player…'+'</option>' + data.players.filter(p=>p.active).map(p=>`<option value="${p.id}">${p.first} ${p.last}</option>`).join(''); }
+  }
+
+  function createSession(notes){
+    const s = {id:uid(), notes:notes||null, createdAt:now(), entries:[]};
+    data.sessions.unshift(s); save(data);
+    renderSessions(); refreshHomeStats(); renderLeaderboard();
+  }
+  function renderSessions(){
+    const select = $('#session-select'); if(!select) return;
+    select.innerHTML = '<option value="">'+'Select session…'+'</option>' + data.sessions.map(s=>`<option value="${s.id}">${new Date(s.createdAt).toLocaleString()} ${s.notes?('— '+s.notes):''}</option>`).join('');
+    const tb = $('#entries-table tbody'); if(tb) tb.innerHTML='';
+  }
+  function addEntry(sessionId, playerId, buy, cash){
+    if(!sessionId || !playerId) return;
+    const s = data.sessions.find(x=>x.id===sessionId); if(!s) return;
+    s.entries.push({playerId, buyIn:Number(buy||0), cashOut:Number(cash||0)});
+    save(data);
+    renderEntries(sessionId); renderLeaderboard(); refreshHomeStats(); renderHighlights();
+  }
+  function renderEntries(sessionId){
+    const s = data.sessions.find(x=>x.id===sessionId); if(!s) return;
+    const tb = $('#entries-table tbody'); if(!tb) return; tb.innerHTML='';
+    const agg = {};
+    for(const e of (s.entries||[])){
+      agg[e.playerId] = agg[e.playerId] || {buy:0,cash:0};
+      agg[e.playerId].buy += Number(e.buyIn||0);
+      agg[e.playerId].cash += Number(e.cashOut||0);
+    }
+    for(const [pid,v] of Object.entries(agg)){
+      const name = (data.players.find(p=>p.id===pid)||{first:pid,last:''});
+      const profit = v.cash - v.buy;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${name.first} ${name.last}</td><td>$${fmt(v.buy)}</td><td>$${fmt(v.cash)}</td><td style="color:${profit>=0?'#34d399':'#fb7185'}">$${fmt(profit)}</td>`;
+      tb.appendChild(tr);
+    }
+  }
+
+  function renderLeaderboard(){
+    const all = data.sessions.flatMap(s=> (s.entries||[]).map(e=>({session:s.id,...e})) );
+    const map = new Map();
+    for(const e of all){
+      const v = map.get(e.playerId)||{buy:0,cash:0,sessions:0};
+      v.buy += Number(e.buyIn||0); v.cash += Number(e.cashOut||0); v.sessions += 1;
+      map.set(e.playerId,v);
+    }
+    const rows = [...map.entries()].map(([pid,v])=>({pid, ...v, profit:v.cash-v.buy})).sort((a,b)=>b.profit-a.profit);
+    const tb = $('#leaderboard-table tbody'); if(!tb) return; tb.innerHTML='';
+    rows.forEach((r,i)=>{
+      const p = data.players.find(x=>x.id===r.pid);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${i+1}</td><td>${p?((p.first + ' ' + p.last)):r.pid}</td><td>${r.sessions}</td><td>$${fmt(r.buy)}</td><td>$${fmt(r.cash)}</td><td style="color:${r.profit>=0?'#34d399':'#fb7185'}">$${fmt(r.profit)}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+
+  function createTournament({title, when, buyIn, description, prizes}){
+    const t = {id:uid(), title, when, buyIn:Number(buyIn||0), description:description||null, prizes:prizes||[], status:'scheduled', attendees:[], placements:[]};
+    data.tournaments.unshift(t); save(data); renderTournaments();
+  }
+  function renderTournaments(){
+    const wrap = $('#tournament-list'); if(!wrap) return; wrap.innerHTML='';
+    for(const t of data.tournaments){
+      const item = document.createElement('div'); item.className='item';
+      item.innerHTML = `<div><div><strong>${t.title}</strong></div>
+        <div class="muted">${new Date(t.when).toLocaleString()} • Buy-in $${fmt(t.buyIn)}</div></div>
+        <div class="row">
+          <button class="btn ghost" data-id="${t.id}" data-act="view">View</button>
+          <button class="btn" data-id="${t.id}" data-act="rsvp">RSVP</button>
+        </div>`;
+      wrap.appendChild(item);
+    }
+    wrap.querySelectorAll('button').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const id=b.dataset.id, act=b.dataset.act;
+        const t = data.tournaments.find(x=>x.id===id);
+        if(!t) return;
+        if(act==='view') showTournament(t);
+        if(act==='rsvp') promptRSVP(t);
+      });
+    });
+  }
+  function showTournament(t){
+    const det = $('#tournament-detail'); if(!det) return;
+    det.classList.remove('hidden');
+    det.innerHTML = `
       <div class="page-head">
-        <h2 class="section-title">Leaderboard</h2>
-        <button class="btn back sm" data-back>← Back</button>
+        <h3 style="margin:0">Tournament: ${t.title}</h3>
+        <button class="btn back sm" id="detail-back">← Back</button>
       </div>
-      <div class="card elevate">
-        <p class="muted">Totals across all sessions.</p>
-        <div class="table-wrap">
-          <table id="leaderboard-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Sessions</th>
-                <th>Total Buy‑ins</th>
-                <th>Total Cash‑outs</th>
-                <th>Profit</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+      <div class="muted">${new Date(t.when).toLocaleString()} • Buy-in $${fmt(t.buyIn)} • Status: ${t.status}</div>
+      ${t.description?(`<p style="margin-top:8px">${t.description}</p>`):''}
+      ${t.prizes?.length?(`<div style="margin-top:10px"><strong>Prizes</strong><ul>${t.prizes.map(p=>`<li>${p}</li>`).join('')}</ul></div>`):''}
+      <div class="grid two" style="margin-top:16px">
+        <div class="pane"><h4>Attendees</h4><ul class="list compact">${t.attendees.map(a=>`<li class="item">${a.name} — ${a.email}</li>`).join('')||'<li class="item muted">No RSVPs yet.</li>'}</ul></div>
+        <div class="pane"><h4>Placements</h4><ol class="list compact">${t.placements.sort((a,b)=>a.rank-b.rank).map(p=>`<li class="item">${p.rank}. ${p.name}${p.prize?(` — ${p.prize}`):''}</li>`).join('')||'<li class="item muted">No placements yet.</li>'}</ol></div>
+      </div>`;
+    $('#detail-back')?.addEventListener('click', ()=> det.classList.add('hidden'));
+  }
+  function promptRSVP(t){
+    const name = prompt('Your name:'); if(!name) return;
+    const email = prompt('Your email:'); if(!email) return;
+    t.attendees.push({name,email}); save(data); renderTournaments(); showTournament(t);
+  }
 
-    <!-- Tournaments -->
-    <section id="tournaments" class="page">
-      <div class="page-head">
-        <h2 class="section-title">Tournaments</h2>
-        <button class="btn back sm" data-back>← Back</button>
-      </div>
-      <div class="card elevate">
-        <div id="tournament-list" class="list"></div>
-      </div>
-      <div id="tournament-detail" class="card elevate hidden"></div>
-    </section>
+  function initAdmin(){
+    renderPlayers(); renderSessions(); renderLeaderboard(); renderTournaments();
+    $('#add-player')?.addEventListener('click', ()=> addPlayer($('#player-first').value.trim(), $('#player-last').value.trim()));
+    $('#create-session')?.addEventListener('click', ()=> createSession($('#session-notes').value.trim()));
+    $('#session-select')?.addEventListener('change', e=> renderEntries(e.target.value));
+    $('#add-entry')?.addEventListener('click', ()=> addEntry($('#session-select').value, $('#entry-player').value, $('#entry-buyin').value, $('#entry-cashout').value));
+    $('#t-create')?.addEventListener('click', ()=>{
+      const prizes = ($('#t-prizes').value||'').split('\n').map(s=>s.trim()).filter(Boolean);
+      createTournament({title:$('#t-title').value.trim(), when:$('#t-when').value, buyIn:$('#t-buyin').value, description:$('#t-description').value.trim(), prizes});
+      fillTournamentManage();
+    });
+    $('#p-add')?.addEventListener('click', ()=>{
+      const tid = $('#t-manage-select').value; if(!tid) return;
+      const t = data.tournaments.find(x=>x.id===tid); if(!t) return;
+      const rank = Number($('#p-rank').value||0); const name = $('#p-name').value.trim(); const prize = ($('#p-prize').value.trim()||null);
+      if(!rank || !name) return;
+      t.placements.push({rank,name,prize}); save(data); renderPlacementTable(t);
+    });
+    $('#t-mark-complete')?.addEventListener('click', ()=>{
+      const tid = $('#t-manage-select').value; if(!tid) return;
+      const t = data.tournaments.find(x=>x.id===tid); if(!t) return;
+      t.status='completed'; save(data); renderTournaments();
+    });
+    fillTournamentManage();
+  }
+  function fillTournamentManage(){
+    const sel = $('#t-manage-select'); if(!sel) return;
+    sel.innerHTML = '<option value="">'+'Select…'+'</option>' + data.tournaments.map(t=>`<option value="${t.id}">${t.title}</option>`).join('');
+    sel.addEventListener('change', ()=>{ const t = data.tournaments.find(x=>x.id===sel.value); renderPlacementTable(t); });
+  }
+  function renderPlacementTable(t){
+    const tb = $('#placements-table tbody'); if(!tb) return; tb.innerHTML='';
+    if(!t) return;
+    t.placements.sort((a,b)=>a.rank-b.rank).forEach(p=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${p.rank}</td><td>${p.name}</td><td>${p.prize||''}</td>`;
+      tb.appendChild(tr);
+    });
+  }
 
-    <!-- Admin -->
-    <section id="admin" class="page">
-      <div class="page-head">
-        <h2 class="section-title">Admin</h2>
-        <button class="btn back sm" data-back>← Back</button>
-      </div>
-      <div id="admin-panel">
-        <div class="grid two">
-          <div class="pane card elevate">
-            <h3>Players</h3>
-            <div class="row">
-              <input id="player-first" class="input" placeholder="First name">
-              <input id="player-last" class="input" placeholder="Last name">
-              <button id="add-player" class="btn">Add</button>
-            </div>
-            <ul id="players-ul" class="list compact"></ul>
-          </div>
-          <div class="pane card elevate">
-            <h3>Sessions</h3>
-            <div class="row">
-              <input id="session-notes" class="input" placeholder="Notes (optional)">
-              <button id="create-session" class="btn">Create Session</button>
-            </div>
-            <div class="row"><select id="session-select" class="input"></select></div>
-            <div class="row">
-              <select id="entry-player" class="input"></select>
-              <input id="entry-buyin" class="input" type="number" min="0" step="0.01" placeholder="Buy‑in">
-              <input id="entry-cashout" class="input" type="number" min="0" step="0.01" placeholder="Cash‑out">
-              <button id="add-entry" class="btn">Add Entry</button>
-            </div>
-            <div class="table-wrap">
-              <table id="entries-table">
-                <thead>
-                  <tr>
-                    <th>Player</th>
-                    <th>Buy‑in</th>
-                    <th>Cash‑out</th>
-                    <th>Profit</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="grid two">
-          <div class="pane card elevate">
-            <h3>Create Tournament</h3>
-            <div class="row">
-              <input id="t-title" class="input" placeholder="Title">
-              <input id="t-when" class="input" type="datetime-local">
-            </div>
-            <div class="row">
-              <input id="t-buyin" class="input" type="number" min="0" step="0.01" placeholder="Buy‑in">
-              <input id="t-description" class="input" placeholder="Description (optional)">
-            </div>
-            <textarea id="t-prizes" class="input" rows="4" placeholder="Prizes (one per line)
-1st: $300
-2nd: $150
-3rd: $50"></textarea>
-            <div class="row">
-              <button id="t-create" class="btn">Create</button>
-            </div>
-          </div>
-          <div class="pane card elevate">
-            <h3>Manage Tournament</h3>
-            <div class="row">
-              <select id="t-manage-select" class="input"></select>
-            </div>
-            <div class="row">
-              <input id="p-rank" class="input" type="number" min="1" placeholder="Rank">
-              <input id="p-name" class="input" placeholder="Name">
-              <input id="p-prize" class="input" placeholder="Prize (optional)">
-              <button id="p-add" class="btn">Add Placement</button>
-            </div>
-            <div class="row">
-              <button id="t-mark-complete" class="btn ghost">Mark Completed</button>
-            </div>
-            <div class="table-wrap">
-              <table id="placements-table">
-                <thead><tr><th>Rank</th><th>Name</th><th>Prize</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <p>© <span id="year"></span> Gowda Poker Room</p>
-  </footer>
-  <script src="script.js"></script>
+  initAdmin();
+  showPage('home');
+})();
+</script>
 </body>
 </html>
